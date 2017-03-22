@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{ 'MY_ACCOUNTS' | translate}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+<ion-card>
+  <ion-item>
+    <ion-avatar item-left>
+      <img src="{{(userAccount | async)?.imgUrl}}">
+    </ion-avatar>
+    <h2>{{(userAccount | async)?.name}}</h2>
+    <p>{{(userAccount | async)?.birthdate}}</p>
+  </ion-item>
+  <ion-card-content>
+    <h2>{{ 'BALANCE' | translate}} : {{(userAccount | async)?.balance}} T</h2>
+    <h2>{{ 'UPCOMING' | translate}} : {{(userAccount | async)?.upcoming}} T</h2>
+  </ion-card-content>
+
+  <ion-row>
+    <ion-col>
+      <button ion-button icon-left clear small>
+        <ion-icon name="list-box"></ion-icon>
+        <div>{{ 'OPERATIONS' | translate}}</div>
+      </button>
+    </ion-col>
+    <ion-col>
+      <button ion-button icon-left clear small>
+        <ion-icon name="card"></ion-icon>
+        <div>{{ 'PAYMENTS' | translate}}</div>
+      </button>
+    </ion-col>
+    <ion-col center text-center>
+      <ion-note>
+        11h ago
+      </ion-note>
+    </ion-col>
+  </ion-row>
+</ion-card>
+<ion-card>
+  <ion-card-header>{{ 'OTHER_ACCOUNTS' | translate}}</ion-card-header>
+  <ion-list>
+    <button ion-item small *ngFor="let account of accounts | async">
+      <ion-avatar item-left><img src="{{account.imgUrl}}"></ion-avatar>
+      {{account.name}}
+      <ion-badge item-right>{{account.balance}} T</ion-badge>
+    </button>
+  </ion-list>
+</ion-card>
+</ion-content>
