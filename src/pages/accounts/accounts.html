@@ -8,19 +8,25 @@
 <ion-card>
   <ion-item>
     <ion-avatar item-left>
-      <img src="{{(userAccount | async)?.imgUrl}}">
+      <img src="{{auth.user.image}}">
     </ion-avatar>
-    <h2>{{(userAccount | async)?.name}}</h2>
-    <p>{{(userAccount | async)?.birthdate}}</p>
+    <h2>{{auth.user.firstName}} {{auth.user.lastName}}</h2>
+    <p>{{auth.user.birthDate}}</p>
   </ion-item>
-  <ion-card-content>
-    <h2>{{ 'BALANCE' | translate}} : {{(userAccount | async)?.balance}} T</h2>
-    <h2>{{ 'UPCOMING' | translate}} : {{(userAccount | async)?.upcoming}} T</h2>
+  <ion-card-content *ngIf="!userAccount && !auth.user.identityUrl">
+    {{ 'ACCOUNT_INACTIVE' | translate}}
+  </ion-card-content>
+  <ion-card-content *ngIf="!userAccount && auth.user.identityUrl">
+    {{ 'ACCOUNT_ACTIVATE' | translate}}
+  </ion-card-content>
+  <ion-card-content *ngIf="userAccount">
+    <h2>{{ 'BALANCE' | translate}} : {{toTime(userAccount.balance + currentBalance)}} KT</h2>
+    <h2>{{ 'UPCOMING' | translate}} : {{toTime(userAccount.upcoming)}} KT</h2>
   </ion-card-content>
 
-  <ion-row>
+  <ion-row *ngIf="userAccount">
     <ion-col>
-      <button ion-button icon-left clear small>
+      <button ion-button icon-left clear small (click)="openAccount(userAccount)">
         <ion-icon name="list-box"></ion-icon>
         <div>{{ 'OPERATIONS' | translate}}</div>
       </button>
@@ -33,19 +39,34 @@
     </ion-col>
     <ion-col center text-center>
       <ion-note>
-        11h ago
+        {{fromNow}}
       </ion-note>
     </ion-col>
   </ion-row>
 </ion-card>
 <ion-card>
   <ion-card-header>{{ 'OTHER_ACCOUNTS' | translate}}</ion-card-header>
-  <ion-list>
-    <button ion-item small *ngFor="let account of accounts | async">
+  <ion-card-content *ngIf="accounts.length == 0">
+    {{ 'NO_OTHER_ACCOUNT' | translate}}
+  </ion-card-content>
+  <ion-list *ngIf="accounts.length > 0">
+    <button ion-item small *ngFor="let account of accounts" (click)="openAccount(account)">
       <ion-avatar item-left><img src="{{account.imgUrl}}"></ion-avatar>
       {{account.name}}
-      <ion-badge item-right>{{account.balance}} T</ion-badge>
+      <ion-badge item-right>{{toTime(account.balance)}} KT</ion-badge>
     </button>
   </ion-list>
+  <ion-row>
+    <ion-col>
+      <button ion-button icon-left clear small (click)="createAccount()">
+        <ion-icon name="add"></ion-icon>
+        <div>{{ 'CREATE_ACCOUNT' | translate}}</div>
+      </button>
+    </ion-col>
+    <ion-col>
+    </ion-col>
+    <ion-col>
+    </ion-col>
+  </ion-row>
 </ion-card>
 </ion-content>

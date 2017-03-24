@@ -1,0 +1,42 @@
+<ion-content *ngIf="!auth.waiting">
+    <ion-content class="auth-home" *ngIf="!signInForm && !signUpForm">
+     <ion-grid>
+      <ion-row>
+        <ion-col col-12>UID : {{auth.uid}}</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-12>
+            <button ion-button outline color="danger" (click)="signIn()">{{ 'SIGNIN' | translate}}</button>
+            <button ion-button outline color="danger" (click)="signUp()">{{ 'CREATE_ACCOUNT' | translate}}</button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    </ion-content>
+    <ion-content class="auth-home" *ngIf="signInForm || signUpForm">
+        <b class="error">{{error}}</b>
+      <ion-list inset>
+          <ion-item>
+            <ion-label>{{ 'EMAIL' | translate}}</ion-label>
+            <ion-input type="email" [(ngModel)]="credentials.email"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>{{ 'PASSWORD' | translate}}</ion-label>
+            <ion-input type="password" [(ngModel)]="credentials.password"></ion-input>
+          </ion-item>
+      </ion-list>
+      <button icon-left ion-button block (click)="signInWithEmail()" *ngIf="signInForm">
+          <ion-icon name="email"></ion-icon>
+          {{ 'SIGNIN' | translate}}
+      </button>
+
+      <button icon-left ion-button block (click)="signUpWithEmail()" *ngIf="signUpForm">
+          <ion-icon name="email"></ion-icon>
+          {{ 'SIGNUP' | translate}}
+      </button>
+    </ion-content>
+</ion-content>
+<ion-content *ngIf="auth.waiting">
+    En cours
+</ion-content>

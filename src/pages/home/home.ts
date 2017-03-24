@@ -5,9 +5,9 @@ import { PaymentsPage } from '../payments/payments';
 import { SettingsPage } from '../settings/settings';
 
 @Component({
-  templateUrl: 'tabs.html'
+  templateUrl: 'home.html'
 })
-export class TabsPage {
+export class HomePage {
   // this tells the tabs component which Pages
   // should be each tab's root Page
   tab1Root: any = AccountsPage;

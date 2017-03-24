@@ -5,5 +5,14 @@
 </ion-header>
 
 <ion-content>
-  <ion-list></ion-list>
+  <ion-list>
+      <button ion-item icon-left (click)="profile()">
+        <ion-icon name="contact"></ion-icon>
+        {{ 'PROFIL' | translate}}
+      </button>
+      <button ion-item icon-left (click)="cards()">
+        <ion-icon name="card"></ion-icon>
+        {{ 'CARDS' | translate}}
+      </button>
+  </ion-list>
 </ion-content>

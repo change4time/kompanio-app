@@ -3,12 +3,16 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { Http} from "@angular/http";
 import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-translate/ng2-translate';
 import { AngularFireModule } from 'angularfire2';
+import { AuthService } from '../providers/auth-service';
+import { DataService } from '../providers/data-service';
 
 import { MyApp } from './app.component';
+import { AuthPage } from '../pages/auth/home/home';
+import { RegisterPage } from '../pages/auth/register/register';
+import { HomePage } from '../pages/home/home';
 import { AccountsPage } from '../pages/accounts/accounts';
 import { PaymentsPage } from '../pages/payments/payments';
 import { SettingsPage } from '../pages/settings/settings';
-import { TabsPage } from '../pages/tabs/tabs';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyDoKM_Qc8J0xUIjA38bcb-M091OKWkloSU",
@@ -21,7 +25,9 @@ export const firebaseConfig = {
 @NgModule({
   declarations: [
     MyApp,
-    TabsPage,
+    AuthPage,
+    RegisterPage,
+    HomePage,
     AccountsPage,
     PaymentsPage,
     SettingsPage
@@ -38,11 +44,13 @@ export const firebaseConfig = {
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    TabsPage,
+    AuthPage,
+    RegisterPage,
+    HomePage,
     AccountsPage,
     PaymentsPage,
     SettingsPage
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
+  providers: [AuthService, DataService, {provide: ErrorHandler, useClass: IonicErrorHandler}]
 })
 export class AppModule {}

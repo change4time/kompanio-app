@@ -1,0 +1,13 @@
+page-home {
+    .auth-home {
+        background-image : url("../../assets/img/signin-bg.png") no-repeat center center fixed;
+        background-size:cover;
+        background-position-y: 50%;
+    },
+    io-row {
+        text-align: center;
+    }
+    .error {
+        color: red;
+    }
+}
