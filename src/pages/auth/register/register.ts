@@ -20,7 +20,7 @@ export class RegisterPage {
         lastName: null,
         birthDate: null,
         phoneNumber: null,
-        image: "http://www.freeiconspng.com/uploads/profile-icon-9.png"
+        imageUrl: "http://www.freeiconspng.com/uploads/profile-icon-9.png"
     };
 
   constructor(public navCtrl: NavController, private auth: AuthService, private data: DataService, alertCtrl: AlertController, public loadingCtrl: LoadingController) {
@@ -50,7 +50,7 @@ export class RegisterPage {
             loading.present();
             this.captureDataUrl = 'data:image/jpeg;base64,' + imageData;
             this.data.upload("img_user/"+this.userID+".jpg", this.captureDataUrl).then((snapshot) => {
-                this.user.image = snapshot.downloadURL;
+                this.user.imageUrl = snapshot.downloadURL;
                 loading.dismiss();
             },
             err => this.showUploadAlert(err.message));
@@ -59,7 +59,7 @@ export class RegisterPage {
     }
     
     registerUser() {
-        this.auth.registerUser(this.user).then(user => {
+        this.auth.registerUserIdentity(this.user).then(user => {
             this.navCtrl.push(HomePage);
         });
     }

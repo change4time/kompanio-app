@@ -13,6 +13,7 @@ import { HomePage } from '../pages/home/home';
 import { AccountsPage } from '../pages/accounts/accounts';
 import { PaymentsPage } from '../pages/payments/payments';
 import { SettingsPage } from '../pages/settings/settings';
+import { SendPage } from '../pages/payments/send/send';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyDoKM_Qc8J0xUIjA38bcb-M091OKWkloSU",
@@ -30,7 +31,8 @@ export const firebaseConfig = {
     HomePage,
     AccountsPage,
     PaymentsPage,
-    SettingsPage
+    SettingsPage,
+    SendPage
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -49,7 +51,8 @@ export const firebaseConfig = {
     HomePage,
     AccountsPage,
     PaymentsPage,
-    SettingsPage
+    SettingsPage,
+    SendPage
   ],
   providers: [AuthService, DataService, {provide: ErrorHandler, useClass: IonicErrorHandler}]
 })

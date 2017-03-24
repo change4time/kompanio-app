@@ -5,15 +5,15 @@
 </ion-header>
 
 <ion-content padding>
-    <button ion-button block icon-left>
+    <button ion-button block icon-left (click)="pay()">
         <ion-icon name="barcode"></ion-icon>
         {{ 'PAY' | translate}}
     </button>
-    <button ion-button block icon-left>
+    <button ion-button block icon-left (click)="send()">
         <ion-icon name="send"></ion-icon>
         {{ 'SEND_MONEY' | translate}}
     </button>
-    <button ion-button block icon-left>
+    <button ion-button block icon-left (click)="receive()">
         <ion-icon name="qr-scanner"></ion-icon>
         {{ 'RECEIVE_MONEY' | translate}}
     </button>

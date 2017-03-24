@@ -8,25 +8,25 @@
 <ion-card>
   <ion-item>
     <ion-avatar item-left>
-      <img src="{{auth.user.image}}">
+      <img src="{{auth.user.identity.imageUrl}}">
     </ion-avatar>
-    <h2>{{auth.user.firstName}} {{auth.user.lastName}}</h2>
+    <h2>{{auth.user.identity.firstName}} {{auth.user.identity.lastName}}</h2>
     <p>{{auth.user.birthDate}}</p>
   </ion-item>
-  <ion-card-content *ngIf="!userAccount && !auth.user.identityUrl">
+  <ion-card-content *ngIf="!auth.account && !auth.user.identity.documentUrl">
     {{ 'ACCOUNT_INACTIVE' | translate}}
   </ion-card-content>
-  <ion-card-content *ngIf="!userAccount && auth.user.identityUrl">
+  <ion-card-content *ngIf="!auth.account && auth.user.identity.documentUrl">
     {{ 'ACCOUNT_ACTIVATE' | translate}}
   </ion-card-content>
-  <ion-card-content *ngIf="userAccount">
-    <h2>{{ 'BALANCE' | translate}} : {{toTime(userAccount.balance + currentBalance)}} KT</h2>
-    <h2>{{ 'UPCOMING' | translate}} : {{toTime(userAccount.upcoming)}} KT</h2>
+  <ion-card-content *ngIf="auth.account">
+    <h2>{{ 'BALANCE' | translate}} : {{toTime(auth.account.balance + currentBalance)}} KT</h2>
+    <h2>{{ 'UPCOMING' | translate}} : {{toTime(auth.account.upcoming)}} KT</h2>
   </ion-card-content>
 
-  <ion-row *ngIf="userAccount">
+  <ion-row *ngIf="auth.account">
     <ion-col>
-      <button ion-button icon-left clear small (click)="openAccount(userAccount)">
+      <button ion-button icon-left clear small (click)="openAccount(auth.account)">
         <ion-icon name="list-box"></ion-icon>
         <div>{{ 'OPERATIONS' | translate}}</div>
       </button>
@@ -46,12 +46,12 @@
 </ion-card>
 <ion-card>
   <ion-card-header>{{ 'OTHER_ACCOUNTS' | translate}}</ion-card-header>
-  <ion-card-content *ngIf="accounts.length == 0">
+  <ion-card-content *ngIf="auth.accounts.length == 0">
     {{ 'NO_OTHER_ACCOUNT' | translate}}
   </ion-card-content>
-  <ion-list *ngIf="accounts.length > 0">
-    <button ion-item small *ngFor="let account of accounts" (click)="openAccount(account)">
-      <ion-avatar item-left><img src="{{account.imgUrl}}"></ion-avatar>
+  <ion-list *ngIf="auth.accounts.length > 0">
+    <button ion-item small *ngFor="let account of auth.accounts" (click)="openAccount(account)" >
+      <ion-avatar item-left><img src="{{account.imageUrl}}"></ion-avatar>
       {{account.name}}
       <ion-badge item-right>{{toTime(account.balance)}} KT</ion-badge>
     </button>
