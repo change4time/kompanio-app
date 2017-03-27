@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
 import { DataService } from '../../providers/data-service';
-import { AuthService } from '../../providers/auth-service';
+import { UserService } from '../../providers/user-service';
 
 import moment from 'moment';
 
@@ -13,30 +13,21 @@ import moment from 'moment';
 export class AccountsPage {
   currentBalance: any = 0;
   authorizations: any;
-  fromNow: any;
-  
-  constructor(public navCtrl: NavController, private auth: AuthService, private data: DataService) {
-    if(this.auth.account) {
-        this.fromNow = moment(this.auth.account.balanceUpdated).fromNow();
-        let since = moment().diff(moment(this.auth.account.balanceUpdated));
-        /*
-        let ur = moment().diff(moment(this.auth.account.balanceUpdated));
-        console.log("Universal Revenu : " + ur);
-        let ut = Math.round(0.8 * ur);
-        console.log("Universal Tax : " + ut);
-        this.userBalance = ur - ut + this.auth.account.dividend + this.auth.account.balance;
 
-        this.currentBalance = this.auth.account.speed * since;
-        */
-    }
+  constructor(public navCtrl: NavController, private user: UserService, private data: DataService) {
+  
   }
   
   compute() {
     
   }
   
+  fromNow(date) {
+    return moment(date).fromNow();
+  }
+  
   toTime(balance) {
-    return Math.round(moment.duration(balance).asHours());
+    return Math.floor(moment.duration(balance).asHours());
   }
 
 }

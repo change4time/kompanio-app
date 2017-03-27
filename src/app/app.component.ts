@@ -2,11 +2,11 @@ import { Component, ViewChild } from '@angular/core';
 import { Platform, Nav } from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
 import { TranslateService } from 'ng2-translate/ng2-translate';
-import { AuthService } from '../providers/auth-service';
+import { UserService } from '../providers/user-service';
 
-import { AuthPage } from '../pages/auth/home/home';
-import { RegisterPage } from '../pages/auth/register/register';
+import { AuthPage } from '../pages/auth/auth';
 import { HomePage } from '../pages/home/home';
+import { ProfilePage } from '../pages/profile/profile';
 
 
 @Component({
@@ -16,13 +16,17 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
   rootPage = AuthPage;
 
-  constructor(platform: Platform, translate: TranslateService, private auth: AuthService) {
+  constructor(platform: Platform, translate: TranslateService, private user: UserService) {
     platform.ready().then(() => {
-      this.auth.userObservable.subscribe((user) => {
+      this.user.observable.subscribe(user => {
         if (user) {
-            this.nav.setRoot(HomePage);
+            if(user.identity) {
+              this.nav.setRoot(HomePage);
+            } else {
+              this.nav.setRoot(ProfilePage);
+            }
         } else {
-            this.nav.setRoot(RegisterPage);
+            this.nav.setRoot(AuthPage);
         }
       });
       

@@ -1,14 +1,11 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
-import { AuthService } from '../../../providers/auth-service';
-
-import { HomePage } from '../../home/home';
-import { RegisterPage } from '../register/register';
+import { AuthService } from '../../providers/auth-service';
 
 @Component({
   selector: 'page-home',
-  templateUrl: 'home.html'
+  templateUrl: 'auth.html'
 })
 export class AuthPage {
 
@@ -22,7 +19,7 @@ export class AuthPage {
   
   signInWithEmail(): void {
     this.auth.signInWithEmail(this.credentials).then(authData => {
-        this.navCtrl.setRoot(RegisterPage);
+        
     }).catch(e => {
         this.error = e.message;
     });
@@ -30,7 +27,7 @@ export class AuthPage {
   
   signUpWithEmail(): void {
     this.auth.createUser(this.credentials).then(authData => {
-        this.navCtrl.push(RegisterPage);
+        
     }).catch(e => {
         this.error = e.message;
     });
@@ -46,6 +43,5 @@ export class AuthPage {
   
   signOut(): void {
     this.auth.signOut();
-    this.navCtrl.push(HomePage);
   }
 }

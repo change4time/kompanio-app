@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
 import { NavController, AlertController, LoadingController } from 'ionic-angular';
-import { AuthService } from '../../../providers/auth-service';
-import { DataService } from '../../../providers/data-service';
+import { AuthService } from '../../providers/auth-service';
+import { DataService } from '../../providers/data-service';
 
 import { Camera } from 'ionic-native';
 
-import { HomePage } from '../../home/home';
+import { HomePage } from '../home/home';
 
 @Component({
-  templateUrl: 'register.html'
+  templateUrl: 'profile.html'
 })
-export class RegisterPage {
+export class ProfilePage {
     loader;
     alertCtrl: AlertController;
     captureDataUrl: string;

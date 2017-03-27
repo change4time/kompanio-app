@@ -1,4 +1,4 @@
-<ion-content *ngIf="!auth.waiting">
+<ion-content>
     <ion-content class="auth-home" *ngIf="!signInForm && !signUpForm">
      <ion-grid>
       <ion-row>
@@ -36,7 +36,4 @@
           {{ 'SIGNUP' | translate}}
       </button>
     </ion-content>
-</ion-content>
-<ion-content *ngIf="auth.waiting">
-    En cours
 </ion-content>

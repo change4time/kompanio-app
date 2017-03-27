@@ -8,52 +8,52 @@
 <ion-card>
   <ion-item>
     <ion-avatar item-left>
-      <img src="{{auth.user.identity.imageUrl}}">
+      <img src="{{user.identity.imageUrl}}">
     </ion-avatar>
-    <h2>{{auth.user.identity.firstName}} {{auth.user.identity.lastName}}</h2>
-    <p>{{auth.user.birthDate}}</p>
+    <h2>{{user.identity.firstName}} {{user.identity.lastName}}</h2>
+    <p>{{user.identity.birthDate}}</p>
   </ion-item>
-  <ion-card-content *ngIf="!auth.account && !auth.user.identity.documentUrl">
+  <ion-card-content *ngIf="!user.account && !user.identity.documentUrl">
     {{ 'ACCOUNT_INACTIVE' | translate}}
   </ion-card-content>
-  <ion-card-content *ngIf="!auth.account && auth.user.identity.documentUrl">
+  <ion-card-content *ngIf="!user.account && user.identity.documentUrl">
     {{ 'ACCOUNT_ACTIVATE' | translate}}
   </ion-card-content>
-  <ion-card-content *ngIf="auth.account">
-    <h2>{{ 'BALANCE' | translate}} : {{toTime(auth.account.balance + currentBalance)}} KT</h2>
-    <h2>{{ 'UPCOMING' | translate}} : {{toTime(auth.account.upcoming)}} KT</h2>
+  <ion-card-content *ngIf="user.account">
+    <h2>{{ 'BALANCE' | translate}} : {{ toTime(user.account.getRealTimeBalance()) }} KT</h2>
+    <h2>{{ 'UPCOMING' | translate}} : {{ toTime(user.account.upcoming) }} KT</h2>
   </ion-card-content>
 
-  <ion-row *ngIf="auth.account">
+  <ion-row *ngIf="user.account">
     <ion-col>
-      <button ion-button icon-left clear small (click)="openAccount(auth.account)">
+      <button ion-button icon-left clear small (click)="openAccount(user.account)">
         <ion-icon name="list-box"></ion-icon>
-        <div>{{ 'OPERATIONS' | translate}}</div>
+        <div>{{ 'OPERATIONS' | translate }}</div>
       </button>
     </ion-col>
     <ion-col>
       <button ion-button icon-left clear small>
         <ion-icon name="card"></ion-icon>
-        <div>{{ 'PAYMENTS' | translate}}</div>
+        <div>{{ 'PAYMENTS' | translate }}</div>
       </button>
     </ion-col>
     <ion-col center text-center>
-      <ion-note>
-        {{fromNow}}
+      <ion-note *ngIf="user.account.balanceUpdated">
+        {{ fromNow(user.account.balanceUpdated) }}
       </ion-note>
     </ion-col>
   </ion-row>
 </ion-card>
 <ion-card>
   <ion-card-header>{{ 'OTHER_ACCOUNTS' | translate}}</ion-card-header>
-  <ion-card-content *ngIf="auth.accounts.length == 0">
-    {{ 'NO_OTHER_ACCOUNT' | translate}}
+  <ion-card-content *ngIf="user.accounts.length == 0">
+    {{ 'NO_OTHER_ACCOUNT' | translate }}
   </ion-card-content>
-  <ion-list *ngIf="auth.accounts.length > 0">
-    <button ion-item small *ngFor="let account of auth.accounts" (click)="openAccount(account)" >
+  <ion-list *ngIf="user.accounts.length > 0">
+    <button ion-item small *ngFor="let account of user.accounts" (click)="openAccount(account)" >
       <ion-avatar item-left><img src="{{account.imageUrl}}"></ion-avatar>
-      {{account.name}}
-      <ion-badge item-right>{{toTime(account.balance)}} KT</ion-badge>
+      {{ account.name }}
+      <ion-badge item-right>{{ toTime(account.getRealTimeBalance()) }} KT</ion-badge>
     </button>
   </ion-list>
   <ion-row>

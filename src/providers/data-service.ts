@@ -39,8 +39,11 @@ export class DataService {
         this.af.database.object(path).update(data);
     }
 
-    list(path: string): FirebaseListObservable<any> {
-        return this.af.database.list(path);
+    list(path: string, query: any = null): FirebaseListObservable<any> {
+        if(query)
+          return this.af.database.list(path, query);
+        else
+          return this.af.database.list(path);
     }
 
     object(path: string): FirebaseObjectObservable<any> {
