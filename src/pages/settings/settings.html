@@ -6,13 +6,21 @@
 
 <ion-content>
   <ion-list>
-      <button ion-item icon-left (click)="profile()">
-        <ion-icon name="contact"></ion-icon>
-        {{ 'PROFIL' | translate}}
-      </button>
-      <button ion-item icon-left (click)="cards()">
-        <ion-icon name="card"></ion-icon>
-        {{ 'CARDS' | translate}}
+    <button ion-item icon-left (click)="profile()">
+      <ion-icon name="contact"></ion-icon>
+      {{ 'MY_PROFILE' | translate}}
+    </button>
+    <button ion-item icon-left (click)="cards()">
+      <ion-icon name="card"></ion-icon>
+      {{ 'MY_CARDS' | translate}}
+    </button>
+    <button ion-item icon-left (click)="cards()">
+      <ion-icon name="finger-print"></ion-icon>
+      {{ 'AUTH' | translate}}
+    </button>
+    <button ion-item icon-left (click)="disconnect()">
+        <ion-icon name="power"></ion-icon>
+        {{ 'DISCONNECT' | translate}}
       </button>
   </ion-list>
 </ion-content>

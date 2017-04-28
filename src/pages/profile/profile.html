@@ -1,36 +1,40 @@
-<ion-content >
-  <b class="error">{{error}}</b>
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{ 'MY_PROFILE' | translate}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
     <ion-item>
-        <ion-avatar item-left (click)="openGallery()">
-            <img src="{{user.imageUrl}}" class="avatar">
-        </ion-avatar>
+      <ion-avatar item-left (click)="openGallery()">
+          <img src="{{ user.photoURL }}">
+      </ion-avatar>
+      <h2>{{ user.name }}</h2>
+      <p>{{ user.identity.birthDate }}</p>
+    </ion-item>
+    <ion-card-content>
+      <ion-item>
+        <ion-label stacked>{{ 'PHONE' | translate}}</ion-label>
+        <ion-input type="tel" [(ngModel)]="user.contact.phone" placeholder="0102030405"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label stacked>{{ 'EMAIL' | translate}}</ion-label>
+        <ion-input type="email" [(ngModel)]="user.contact.email" placeholder="user@account.com"></ion-input>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+  
+  <div padding>
+    <ion-item *ngIf="error">
+      <b class="error">{{error}}</b>
     </ion-item>
     
-    <ion-list inset>
-      <ion-item>
-        <ion-label>{{ 'FIRSTNAME' | translate}}</ion-label>
-        <ion-input type="text" [(ngModel)]="user.firstName"></ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-label>{{ 'LASTNAME' | translate}}</ion-label>
-        <ion-input type="text" [(ngModel)]="user.lastName"></ion-input>
-      </ion-item>
-      
-      <ion-item>
-        <ion-label>{{ 'BIRTHDATE' | translate}}</ion-label>
-        <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="DD MM YYYY" [(ngModel)]="user.birthDate"></ion-datetime>
-      </ion-item>
-      
-      <ion-item>
-        <ion-label>{{ 'PHONE' | translate}}</ion-label>
-        <ion-input type="tel" [(ngModel)]="user.phoneNumber"></ion-input>
-      </ion-item>
-    </ion-list>
-
-  <button icon-right ion-button block (click)="registerUser()">
-      {{ 'NEXT' | translate}}
+    <button icon-right ion-button block (click)="save()">
+      {{ 'SAVE' | translate}}
       <ion-icon name="arrow-forward"></ion-icon>
-  </button>
+    </button>
+  </div>
     
 </ion-content>

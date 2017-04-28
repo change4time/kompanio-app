@@ -5,20 +5,53 @@ import { AngularFire, AuthProviders, AngularFireAuth, FirebaseAuthState, AuthMet
 import { Platform } from 'ionic-angular';
 import { Facebook } from 'ionic-native';
 
-import {DataService} from './data-service';
+import {DataService, UserModel} from './data-service';
 
 @Injectable()
 export class AuthService {
   private authState: FirebaseAuthState = null;
+  private _user: UserModel = null;
   
   constructor(private af: AngularFire, private auth: AngularFireAuth, private platform: Platform, private data: DataService) {
-    this.auth.subscribe((state: FirebaseAuthState) => {
-        this.authState = state;
+  }
+  
+  subscribe(change) {
+    return this.auth.subscribe((state: FirebaseAuthState) => {
+      this.authState = state;
+      if(state) {
+        this.data.user(state.uid).subscribe((user: UserModel) => {
+          this._user = user;
+          change(this);
+          this.data.account(state.uid).subscribe(account => user.account = account);
+          for(let delegation of user.delegations) {
+            this.data.account(delegation.$key).subscribe(account => delegation.account = account);
+          }
+        });
+      } else {
+        this._user = null;
+        change(null);
+      }
     });
+  }
+  
+  get photoURL(): string {
+    return this.authState !== null ? this.authState.auth.photoURL : null;
+  }
+  
+  get email(): string {
+    return this.authState !== null ? this.authState.auth.email : null;
   }
   
   get uid(): string {
     return this.authState !== null ? this.authState.uid : null;
+  }
+  
+  get name(): string {
+    return this.authState !== null ? this.authState.auth.displayName : null;
+  }
+  
+  get user(): UserModel {
+    return this._user;
   }
 
   signOut(): void {
@@ -29,15 +62,19 @@ export class AuthService {
     return this.auth.createUser(credentials);
   }
   
-  registerUserIdentity(data: any) {
-    return this.data.object('users/' + this.authState.uid+'/identity').set(data);
+  registerUser(email: string, password: string, user: UserModel) {
+    return this.data.post('createUser', { email: email, password: password, data: user });
+  }
+  
+  saveUser(user: UserModel) {
+    return this.data.update('users/'+this.authState.uid+'/contact', user.contact);
   }
 
   signInWithEmail(credentials) {
     return this.auth.login(credentials, {
-        provider: AuthProviders.Password,
-        method: AuthMethods.Password
-      });
+      provider: AuthProviders.Password,
+      method: AuthMethods.Password
+    });
   }
 
   loginWithFacebook() {

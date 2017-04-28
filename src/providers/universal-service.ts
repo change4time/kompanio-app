@@ -14,9 +14,9 @@ import moment from 'moment';
 */
 @Injectable()
 export class UniversalService {
-  public universalDate: any = null;
-  public universalRevenue: number = 0;
-  public universalTax: number = 1;
+  public current: any;
+  public balance: number;
+  public flows: any = [];
   
   constructor(public http: Http, private data: DataService) {
     this.data.list('/universal', {
@@ -26,9 +26,13 @@ export class UniversalService {
       }
     }).subscribe(universal => {
       if(universal.length > 0) {
-        this.universalDate = new Date(universal[0].$key);
-        this.universalRevenue = universal[0].revenue;
-        this.universalTax = universal[0].tax;
+        this.current = universal[0];
+        this.balance = this.current.balance;
+        this.flows = [];
+        for(let id in this.current.flows) {
+          this.current.flows[id].$key = id;
+          this.flows.push(this.current.flows[id]);
+        }
       }
     });
   }

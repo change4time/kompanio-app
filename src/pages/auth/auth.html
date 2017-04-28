@@ -1,9 +1,6 @@
 <ion-content>
-    <ion-content class="auth-home" *ngIf="!signInForm && !signUpForm">
+    <ion-content class="auth-home" *ngIf="!signInForm">
      <ion-grid>
-      <ion-row>
-        <ion-col col-12>UID : {{auth.uid}}</ion-col>
-      </ion-row>
       <ion-row>
         <ion-col col-12>
             <button ion-button outline color="danger" (click)="signIn()">{{ 'SIGNIN' | translate}}</button>
@@ -13,27 +10,28 @@
     </ion-grid>
 
     </ion-content>
-    <ion-content class="auth-home" *ngIf="signInForm || signUpForm">
-        <b class="error">{{error}}</b>
+    <ion-content class="auth-home" *ngIf="signInForm">
       <ion-list inset>
-          <ion-item>
-            <ion-label>{{ 'EMAIL' | translate}}</ion-label>
-            <ion-input type="email" [(ngModel)]="credentials.email"></ion-input>
-          </ion-item>
+        <ion-item>
+          <ion-label stacked>{{ 'EMAIL' | translate}}</ion-label>
+          <ion-input type="email" [(ngModel)]="credentials.email"></ion-input>
+        </ion-item>
 
-          <ion-item>
-            <ion-label>{{ 'PASSWORD' | translate}}</ion-label>
-            <ion-input type="password" [(ngModel)]="credentials.password"></ion-input>
-          </ion-item>
+        <ion-item>
+          <ion-label stacked>{{ 'PASSWORD' | translate}}</ion-label>
+          <ion-input type="password" [(ngModel)]="credentials.password"></ion-input>
+        </ion-item>
       </ion-list>
-      <button icon-left ion-button block (click)="signInWithEmail()" *ngIf="signInForm">
-          <ion-icon name="email"></ion-icon>
-          {{ 'SIGNIN' | translate}}
-      </button>
-
-      <button icon-left ion-button block (click)="signUpWithEmail()" *ngIf="signUpForm">
-          <ion-icon name="email"></ion-icon>
-          {{ 'SIGNUP' | translate}}
-      </button>
+     
+      <ion-item *ngIf="error">
+        <p class="error">{{error}}</p>
+      </ion-item>
+      
+      <div padding>
+       <button icon-left ion-button block (click)="signInWithEmail()" *ngIf="signInForm">
+            <ion-icon name="email"></ion-icon>
+            {{ 'SIGNIN' | translate}}
+        </button>
+      </div>
     </ion-content>
 </ion-content>

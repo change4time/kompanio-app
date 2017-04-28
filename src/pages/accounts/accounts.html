@@ -4,58 +4,77 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-<ion-card>
+<ion-content>
+  
+<ion-card *ngIf="auth.user">
+  
   <ion-item>
     <ion-avatar item-left>
-      <img src="{{user.identity.imageUrl}}">
+      <img src="{{ auth.user | photoURL }}">
     </ion-avatar>
-    <h2>{{user.identity.firstName}} {{user.identity.lastName}}</h2>
-    <p>{{user.identity.birthDate}}</p>
+    <h2>{{ auth.user.name }}</h2>
+    <span item-right *ngIf="auth.user.account" class="{{ auth.user.account.realTimeBalance >= 0 ? 'green' : 'red' }}">{{ auth.user.account.realTimeBalance | time }}<br/><ion-note>{{ 'BALANCE' | translate }}</ion-note></span>
   </ion-item>
-  <ion-card-content *ngIf="!user.account && !user.identity.documentUrl">
+  
+  <ion-card-content *ngIf="!auth.user.account && !auth.user.identity.documentUrl">
     {{ 'ACCOUNT_INACTIVE' | translate}}
   </ion-card-content>
-  <ion-card-content *ngIf="!user.account && user.identity.documentUrl">
+  
+  <ion-card-content *ngIf="!auth.user.account && auth.user.identity.documentUrl">
     {{ 'ACCOUNT_ACTIVATE' | translate}}
   </ion-card-content>
-  <ion-card-content *ngIf="user.account">
-    <h2>{{ 'BALANCE' | translate}} : {{ toTime(user.account.getRealTimeBalance()) }} KT</h2>
-    <h2>{{ 'UPCOMING' | translate}} : {{ toTime(user.account.upcoming) }} KT</h2>
-  </ion-card-content>
+  
+  <ion-list *ngIf="auth.user.account">
+    <button ion-item (click)="flows(auth.user.account.id)">
+      {{ 'MY_FLOW' | translate }}
+      <span item-right class="{{ auth.user.account.ongoing.balance >= 0 ? 'green' : 'red' }}">{{ auth.user.account.ongoing.balance | time:'months' }}<br/><ion-note>/{{ 'MONTH' | translate }}</ion-note></span>
+    </button>
+    <button ion-item (click)="details(auth.user.account.id)">
+      {{ 'MY_PAYMENTS' | translate }}
+      <span item-right class="{{ totalBalance >= 0 ? 'green' : 'red' }}">{{ totalBalance | time }}<br/><ion-note>{{ totalName | translate }}</ion-note></span>
+    </button>
+  </ion-list>
 
-  <ion-row *ngIf="user.account">
+  <ion-row *ngIf="auth.user.account">
     <ion-col>
-      <button ion-button icon-left clear small (click)="openAccount(user.account)">
-        <ion-icon name="list-box"></ion-icon>
-        <div>{{ 'OPERATIONS' | translate }}</div>
+      <button ion-button icon-left clear small (click)="payments(auth.user.account.id)">
+        <ion-icon name="cash"></ion-icon>
+        <div>{{ 'PAYMENT' | translate }}</div>
       </button>
     </ion-col>
     <ion-col>
-      <button ion-button icon-left clear small>
-        <ion-icon name="card"></ion-icon>
-        <div>{{ 'PAYMENTS' | translate }}</div>
+      <button ion-button icon-left clear small (click)="delegations(auth.user.account.id, auth.user.name, true)">
+        <ion-icon name="contacts"></ion-icon>
+        <div>{{ 'DELEGATIONS' | translate }}</div>
       </button>
     </ion-col>
     <ion-col center text-center>
-      <ion-note *ngIf="user.account.balanceUpdated">
-        {{ fromNow(user.account.balanceUpdated) }}
+      <ion-note *ngIf="auth.user.account.current">
+        {{ fromNow(auth.user.account.current.updated) }}
       </ion-note>
     </ion-col>
   </ion-row>
+  
 </ion-card>
-<ion-card>
+  
+<ion-card *ngIf="auth.user">
+  
   <ion-card-header>{{ 'OTHER_ACCOUNTS' | translate}}</ion-card-header>
-  <ion-card-content *ngIf="user.accounts.length == 0">
+  <ion-card-content *ngIf="auth.user.delegations.length == 0">
     {{ 'NO_OTHER_ACCOUNT' | translate }}
   </ion-card-content>
-  <ion-list *ngIf="user.accounts.length > 0">
-    <button ion-item small *ngFor="let account of user.accounts" (click)="openAccount(account)" >
-      <ion-avatar item-left><img src="{{account.imageUrl}}"></ion-avatar>
-      {{ account.name }}
-      <ion-badge item-right>{{ toTime(account.getRealTimeBalance()) }} KT</ion-badge>
+  
+  <ion-list *ngIf="auth.user.delegations.length > 0">
+    <button ion-item small *ngFor="let delegation of auth.user.delegations" (click)="details(delegation.$key)" (press)="action(delegation)" [disabled]="!delegation.read" >
+      <ion-avatar item-left><img src="{{ delegation | photoURL }}"></ion-avatar>
+      {{ delegation.name }}
+      <span item-right *ngIf="delegation.account" class="{{ delegation.account.realTimeBalance >= 0 ? 'green' : 'red' }}">
+        {{ delegation.account.realTimeBalance | time }}<br/>
+        <ion-note>{{ delegation.account.ongoing.balance | time:'months' }}/{{ 'MONTH' | translate }}</ion-note>
+      </span>
     </button>
   </ion-list>
+  
   <ion-row>
     <ion-col>
       <button ion-button icon-left clear small (click)="createAccount()">
@@ -68,5 +87,7 @@
     <ion-col>
     </ion-col>
   </ion-row>
+  
 </ion-card>
+  
 </ion-content>

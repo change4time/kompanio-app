@@ -1,0 +1,107 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{ 'PAY' | translate}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-card *ngIf="!paymentId">
+    <ion-item *ngIf="!fromAccount" (click)="selectFromAccount()">
+      <h2>{{'FROM_ACCOUNT' | translate}}</h2>
+    </ion-item>
+    <ion-item *ngIf="fromAccount" (click)="selectFromAccount()">
+      <ion-avatar item-left>
+        <img src="{{ fromAccount | photoURL }}">
+      </ion-avatar>
+      <h2>{{'FROM' | translate}} {{fromAccount.name}}</h2>
+      <p *ngIf="!payment">{{fromAccount.$key}}</p>
+    </ion-item>
+  </ion-card>
+  
+  <ion-card *ngIf="!paymentId">
+    <ion-item *ngIf="!toAccount" (click)="selectToAccount()" [class.disabled]="!fromAccount">
+      <h2>{{'TO_ACCOUNT' | translate}}</h2>
+    </ion-item>
+    <ion-item *ngIf="fromAccount && toAccount" (click)="selectToAccount()">
+      <ion-avatar item-left>
+        <img src="{{ toAccount | photoURL }}">
+      </ion-avatar>
+      <h2>{{'TO' | translate}} {{toAccount.name}}</h2>
+      <p *ngIf="!payment">{{toAccount.$key}}</p>
+    </ion-item>
+  </ion-card>
+  
+  <ion-card [class.disabled]="!fromAccount || !toAccount" *ngIf="!paymentId">
+    <ion-card-header *ngIf="!payment">
+      {{ 'AMOUNT' | translate}}
+    </ion-card-header>
+    <ion-card-content>
+      <ion-input *ngIf="!payment" type="tel" [(ngModel)]="amount" [disabled]="!fromAccount || !toAccount" placeholder="{{ 'AMOUNT' | translate}}"></ion-input>
+      <h2 *ngIf="payment">{{amount}} KT</h2>
+    </ion-card-content>
+  </ion-card>
+  
+  <ion-card [class.disabled]="!fromAccount || !toAccount" *ngIf="!paymentId && fromAccount && fromAccount.type != 'card'">
+    <ion-card-header *ngIf="!payment">
+      {{ 'FROM_LABEL' | translate}}
+    </ion-card-header>
+    <ion-card-content>
+      <ion-input *ngIf="!payment" type="text" [(ngModel)]="fromLabel" [disabled]="!fromAccount || !toAccount" placeholder="{{ 'FROM_LABEL' | translate}}"></ion-input>
+      <h2 *ngIf="payment">{{'FROM_LABEL' | translate}}: {{payment.from.label}}</h2>
+    </ion-card-content>
+  </ion-card>
+  
+  <ion-card [class.disabled]="!fromAccount || !toAccount" *ngIf="!paymentId">
+    <ion-card-header *ngIf="!payment">
+      {{ 'TO_LABEL' | translate}}
+    </ion-card-header>
+    <ion-card-content>
+      <ion-input *ngIf="!payment" type="text" [(ngModel)]="toLabel" [disabled]="!fromAccount || !toAccount" placeholder="{{ 'TO_LABEL' | translate}}"></ion-input>
+      <h2 *ngIf="payment">{{'TO_LABEL' | translate}}: {{payment.to.label}}</h2>
+    </ion-card-content>
+  </ion-card>
+  
+  <ion-card *ngIf="paymentId">
+    <ion-item>
+      <h2>{{'PAYMENT_SUCCEED' | translate}}</h2>
+      <p>{{paymentId}}</p>
+    </ion-item>
+  </ion-card>
+  
+  <div padding *ngIf="paymentId">
+    <button ion-button block (click)="home()">
+        {{ 'RETURN' | translate}}
+    </button>
+  </div>
+  
+  <ion-card *ngIf="error">
+    <ion-item>
+      <p>{{error}}</p>
+    </ion-item>
+  </ion-card>
+  
+  <ion-grid *ngIf="!paymentId">
+    <ion-row>
+      <ion-col col-6>
+        <button ion-button block (click)="home()" *ngIf="!payment">
+          {{ 'RETURN' | translate}}
+        </button>
+        <button ion-button block (click)="modifyPayment()" *ngIf="payment">
+          {{ 'MODIFY' | translate}}
+        </button>
+      </ion-col>
+      <ion-col col-6>
+        <button ion-button block (click)="confirmPayment()" [disabled]="!fromAccount || !toAccount || amount == null || amount <= 0" *ngIf="!payment">
+          {{ 'CONFIRM' | translate}}
+        </button>
+        <button ion-button block (click)="submitPayment()" *ngIf="payment && !error">
+          {{ 'CONFIRM' | translate}}
+        </button>
+        <button ion-button block (click)="retry()" *ngIf="payment && error">
+          {{ 'RETRY' | translate}}
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+  

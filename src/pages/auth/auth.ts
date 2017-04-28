@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
 import { AuthService } from '../../providers/auth-service';
+import { RegisterPage } from '../register/register';
 
 @Component({
   selector: 'page-home',
@@ -12,25 +13,8 @@ export class AuthPage {
   error: string = "";
   credentials:any = { email: null, password: null };
   signInForm:boolean = false;
-  signUpForm:boolean = false;
 
   constructor(public navCtrl: NavController, private auth: AuthService) {
-  }
-  
-  signInWithEmail(): void {
-    this.auth.signInWithEmail(this.credentials).then(authData => {
-        
-    }).catch(e => {
-        this.error = e.message;
-    });
-  }
-  
-  signUpWithEmail(): void {
-    this.auth.createUser(this.credentials).then(authData => {
-        
-    }).catch(e => {
-        this.error = e.message;
-    });
   }
 
   signIn(): void {
@@ -38,10 +22,14 @@ export class AuthPage {
   }
   
   signUp(): void {
-    this.signUpForm = true;
+    this.navCtrl.push(RegisterPage);
   }
   
-  signOut(): void {
-    this.auth.signOut();
+  signInWithEmail(): void {
+    this.auth.signInWithEmail(this.credentials).then(authData => {
+        this.error = "Connecting...";
+    }).catch(e => {
+        this.error = e.message;
+    });
   }
 }

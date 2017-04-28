@@ -5,8 +5,6 @@ import { DataService } from '../../providers/data-service';
 
 import { Camera } from 'ionic-native';
 
-import { HomePage } from '../home/home';
-
 @Component({
   templateUrl: 'profile.html'
 })
@@ -14,24 +12,15 @@ export class ProfilePage {
     loader;
     alertCtrl: AlertController;
     captureDataUrl: string;
-    userID: string = null;
-    user: any = {
-        firstName: null,
-        lastName: null,
-        birthDate: null,
-        phoneNumber: null,
-        imageUrl: "http://www.freeiconspng.com/uploads/profile-icon-9.png"
-    };
+    user: any = null;
+    error: string = null;
 
   constructor(public navCtrl: NavController, private auth: AuthService, private data: DataService, alertCtrl: AlertController, public loadingCtrl: LoadingController) {
     this.alertCtrl = alertCtrl;
+    this.user = this.auth.user;
   }
   
-  ngOnInit() {
-    this.userID = this.auth.uid;
-  }
-  
-  private openGallery (): void {
+  openGallery (): void {
       let cameraOptions = {
         sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
         destinationType: Camera.DestinationType.DATA_URL,
@@ -49,8 +38,8 @@ export class ProfilePage {
 
             loading.present();
             this.captureDataUrl = 'data:image/jpeg;base64,' + imageData;
-            this.data.upload("img_user/"+this.userID+".jpg", this.captureDataUrl).then((snapshot) => {
-                this.user.imageUrl = snapshot.downloadURL;
+            this.data.upload("photos/"+this.auth.uid+".jpg", this.captureDataUrl).then((snapshot) => {
+                this.user.photoURL = snapshot.downloadURL;
                 loading.dismiss();
             },
             err => this.showUploadAlert(err.message));
@@ -58,10 +47,12 @@ export class ProfilePage {
         err => this.showUploadAlert(err.message));   
     }
     
-    registerUser() {
-        this.auth.registerUserIdentity(this.user).then(user => {
-            this.navCtrl.push(HomePage);
-        });
+    save() {
+      this.auth.saveUser(this.user).then(() => {
+        this.error = "Saved !";
+      }).catch((error) => {
+        this.error = error.message;
+      });
     }
     
     showUploadAlert(message: string) {
