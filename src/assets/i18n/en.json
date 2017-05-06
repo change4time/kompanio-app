@@ -66,16 +66,24 @@
   "CANCEL": "Cancel",
   "FLOWS": "Flows",
   "UNIVERSAL_DIVIDEND": "Universal Dividend",
-  "PUBLIC_CONTRACTS": "Public Contracts",
-  "PRIVATE_CONTRACTS": "Private Contracts",
+  "ALL": "All",
+  "PUBLIC": "Public",
+  "PRIVATE": "Private",
   "SINCE": "since",
   "NETWORK_NAME": "Kompanio Network",
-  "MY_LIFE": "My Life",
-  "MY_EARTH": "My Planet",
   
   "DONATION": "Donation",
   "ENVIRONMENT": "Environment",
-  "DEVELOPMENT": "Development",
+  "ECONOMY": "Economy",
+  
+  "Earth": "My Planet",
+  "Universal Income": "Universal Income",
+  "Network Development": "Network Development",
+  
+  "UNIVERSAL_INCOME": "Universal Income",
+  "UNIVERSAL_DIVIDEND": "Universal Dividend",
+  "UNIVERSAL_TAX": "Universal Tax",
+  "ENVIRONMENTAL_TAX": "Environmental Tax",
   
   "ME": "Me",
   

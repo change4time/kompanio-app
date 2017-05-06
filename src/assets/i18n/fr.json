@@ -66,16 +66,24 @@
   "CANCEL": "Annuler",
   "FLOWS": "Flux",
   "UNIVERSAL_DIVIDEND": "Dividende Universel",
-  "PUBLIC_CONTRACTS": "Contrats publiques",
-  "PRIVATE_CONTRACTS": "Contrats privés",
+  "ALL": "Tous",
+  "PUBLIC": "Publics",
+  "PRIVATE": "Privés",
   "SINCE": "depuis le",
   "NETWORK_NAME": "Réseau Kompanio",
-  "MY_LIFE": "Ma Vie",
-  "MY_EARTH": "Ma Planète",
   
   "DONATION": "Don",
   "ENVIRONMENT": "Environement",
-  "DEVELOPMENT": "Développement",
+  "ECONOMY": "Economie",
+  
+  "Earth": "Ma Planète",
+  "Universal Income": "Revenu Universel",
+  "Network Development": "Développement du réseau",
+  
+  "UNIVERSAL_INCOME": "Revenu Universel",
+  "UNIVERSAL_DIVIDEND": "Dividende Universel",
+  "UNIVERSAL_TAX": "Impôt Universel",
+  "ENVIRONMENTAL_TAX": "Taxe Environementale",
   
   "ME": "Moi",
   

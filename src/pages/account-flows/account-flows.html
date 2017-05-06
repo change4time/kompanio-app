@@ -1,50 +1,43 @@
 <ion-header>
   <ion-navbar>
     <ion-title>{{ 'FLOWS' | translate}}</ion-title>
+    <ion-buttons end class="right">
+      <span class="{{ total >= 0 ? 'green' : 'red' }}">{{ total | time:'months' }}/{{ 'MONTH' | translate }}</span><br/>
+      <ion-note class="small">{{ total | time:'years' }}/{{ 'YEAR' | translate }}</ion-note>
+    </ion-buttons>
   </ion-navbar>
+  <ion-toolbar no-border-top>
+    <ion-segment [(ngModel)]="segment">
+      <ion-segment-button value="all">
+        {{ 'ALL' | translate }}
+      </ion-segment-button>
+      <ion-segment-button value="public">
+        {{ 'PUBLIC' | translate }}
+      </ion-segment-button>
+      <ion-segment-button value="private">
+        {{ 'PRIVATE' | translate }}
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
 </ion-header>
 
 
 <ion-content>
   
-  <ion-item-group *ngIf="personalAccount && universal.flows && universal.flows.length > 0">
-    <ion-item-divider color="light">{{ 'PUBLIC_CONTRACTS' | translate }}
-      <div item-right class="right">
-        <h2 class="{{ universal.balance >= 0 ? 'green' : 'red' }}">{{ universal.balance | time:'months' }}/{{ 'MONTH' | translate }}</h2>
-        <ion-note class="small">{{ universal.balance | time:'years' }}/{{ 'YEAR' | translate }}</ion-note>
-      </div>
-    </ion-item-divider>
-    <ion-item *ngFor="let pflow of universal.flows" >
-      <ion-avatar item-left>
-        <img src="{{ pflow.$key | photoURL }}">
-      </ion-avatar>
-      <h2>{{ pflow.category | translate }}</h2>
-      <p>{{ pflow.name | translate }}</p>
-      <div item-right class="right">
-        <h2 class="{{ pflow.amount >= 0 ? 'green' : 'red' }}">{{ pflow.amount | time:'months' }}/{{ 'MONTH' | translate }}</h2>
-        <ion-note class="small">{{ pflow.amount | time:'years' }}/{{ 'YEAR' | translate }}</ion-note>
-      </div>
-    </ion-item>
-  </ion-item-group>
-  
-  <ion-item-group *ngIf="flows.length > 0">
-    <ion-item-divider color="light">{{ 'PRIVATE_CONTRACTS' | translate }}
-      <div item-right class="right">
-        <h2 class="{{ total >= 0 ? 'green' : 'red' }}">{{ total | time:'months' }}/{{ 'MONTH' | translate }}</h2>
-        <ion-note class="small">{{ total | time:'years' }}/{{ 'YEAR' | translate }}</ion-note>
-      </div>
-    </ion-item-divider>
-    <ion-item *ngFor="let flow of flows | orderBy:'created':false" >
+  <ion-list *ngIf="flows.length > 0">
+    <ion-item *ngFor="let flow of flows" >
       <ion-avatar item-left>
         <img src="{{ flow.account | photoURL }}">
       </ion-avatar>
-      <h2>{{ flow.label }}</h2>
-      <p>{{ flow.name }}</p>
+      <h2 *ngIf="flow.account.startsWith('GIG')">{{ flow.label | translate }}</h2>
+      <h2 *ngIf="!flow.account.startsWith('GIG')">{{ flow.label }}</h2>
+      <p *ngIf="flow.account.startsWith('GIG')">{{ flow.name | translate }}</p>
+      <p *ngIf="!flow.account.startsWith('GIG')">{{ flow.name }}</p>
       <div item-right class="right">
         <h2 class="{{ flow.amount >= 0 ? 'green' : 'red' }}">{{ flow.amount | time:'months' }}/{{ 'MONTH' | translate }}</h2>
         <ion-note class="small">{{ flow.amount | time:'years' }}/{{ 'YEAR' | translate }}</ion-note>
       </div>
     </ion-item>
-  </ion-item-group>
+  </ion-list>
   
 </ion-content>

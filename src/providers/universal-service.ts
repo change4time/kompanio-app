@@ -15,7 +15,7 @@ import moment from 'moment';
 @Injectable()
 export class UniversalService {
   public current: any;
-  public balance: number;
+  public balance: number = 0;
   public flows: any = [];
   
   constructor(public http: Http, private data: DataService) {
@@ -27,11 +27,12 @@ export class UniversalService {
     }).subscribe(universal => {
       if(universal.length > 0) {
         this.current = universal[0];
-        this.balance = this.current.balance;
         this.flows = [];
+        this.balance = 0;
         for(let id in this.current.flows) {
           this.current.flows[id].$key = id;
           this.flows.push(this.current.flows[id]);
+          this.balance += this.current.flows[id].amount;
         }
       }
     });

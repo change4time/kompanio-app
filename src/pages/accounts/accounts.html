@@ -65,7 +65,7 @@
   </ion-card-content>
   
   <ion-list *ngIf="auth.user.delegations.length > 0">
-    <button ion-item small *ngFor="let delegation of auth.user.delegations" (click)="details(delegation.$key)" (press)="action(delegation)" [disabled]="!delegation.read" >
+    <button ion-item small *ngFor="let delegation of auth.user.delegations" (press)="details(delegation.$key)" (click)="action(delegation)" [disabled]="!delegation.read" >
       <ion-avatar item-left><img src="{{ delegation | photoURL }}"></ion-avatar>
       {{ delegation.name }}
       <span item-right *ngIf="delegation.account" class="{{ delegation.account.realTimeBalance >= 0 ? 'green' : 'red' }}">
