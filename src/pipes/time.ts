@@ -32,6 +32,6 @@ export class Time {
         newValue = moment.duration(value).asHours();
       }
     }
-    return (newValue >= 0 ? '+' : '') + Math.floor(newValue) + ' KT';
+    return (newValue >= 0 ? '+' : '') + Math.floor(newValue).toLocaleString() + ' KTU';
   }
 }

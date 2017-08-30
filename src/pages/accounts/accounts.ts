@@ -47,9 +47,9 @@ export class AccountsPage {
       title: 'Compte ' + delegation.name,
       buttons: [
         {
-          text: 'Paiments',
+          text: 'Opérations',
           handler: () => {
-            this.payments(delegation.$key);
+            this.details(delegation.$key);
           }
         },{
           text: 'Flux',
