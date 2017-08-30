@@ -74,7 +74,7 @@ export class DataService {
     
     searchIdentities(search: string, groups: boolean): Promise<any> {
       let g = groups ? '&groups=1' : '';
-      return this.http.get('https://us-central1-bank4time.cloudfunctions.net/identities?q='+search+g).map(function(res) { 
+      return this.http.get('https://us-central1-kompanio-network.cloudfunctions.net/identities?q='+search+g).map(function(res) { 
         var list = [];
         for(var id of res.json())
           list.push(Identity.fromObject(id));
@@ -83,13 +83,13 @@ export class DataService {
     }
     
     get(path: string): Promise<any> {
-        return this.http.get('https://us-central1-bank4time.cloudfunctions.net/'+path).map(res => res.json()).toPromise();
+        return this.http.get('https://us-central1-kompanio-network.cloudfunctions.net/'+path).map(res => res.json()).toPromise();
     }
     
     post(path: string, data: any): Promise<any> {
       //var headers = new Headers();
       //headers.append('Content-Type', 'application/json');//, { headers: headers }
-      return this.http.post('https://us-central1-bank4time.cloudfunctions.net/'+path, data).map(res => res.json()).toPromise();
+      return this.http.post('https://us-central1-kompanio-network.cloudfunctions.net/'+path, data).map(res => res.json()).toPromise();
     }
     
     imageUrl(id) {

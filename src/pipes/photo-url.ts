@@ -18,9 +18,9 @@ export class PhotoURL {
     if(value && value.photoURL)
       return value.photoURL;
     else if(value && value.id)
-      return "https://firebasestorage.googleapis.com/v0/b/bank4time.appspot.com/o/"+encodeURIComponent("photos/thumb_" + value.id + ".jpg")+"?alt=media";
+      return "https://firebasestorage.googleapis.com/v0/b/kompanio-network.appspot.com/o/"+encodeURIComponent("photos/thumb_" + value.id + ".jpg")+"?alt=media";
     else if(value)
-      return "https://firebasestorage.googleapis.com/v0/b/bank4time.appspot.com/o/"+encodeURIComponent("photos/thumb_" + value + ".jpg")+"?alt=media";
+      return "https://firebasestorage.googleapis.com/v0/b/kompanio-network.appspot.com/o/"+encodeURIComponent("photos/thumb_" + value + ".jpg")+"?alt=media";
     else
       return "http://www.freeiconspng.com/uploads/profile-icon-9.png";
   }

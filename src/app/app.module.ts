@@ -45,11 +45,11 @@ import { CardsPage } from '../pages/cards/cards';
 
 
 export const firebaseConfig = {
-  apiKey: "AIzaSyDoKM_Qc8J0xUIjA38bcb-M091OKWkloSU",
-  authDomain: "bank4time.firebaseapp.com",
-  databaseURL: "https://bank4time.firebaseio.com",
-  storageBucket: "bank4time.appspot.com",
-  messagingSenderId: "992072830135"
+  apiKey: "AIzaSyAs32YUjWXLPR3Z43z8zgg2NTir0UWUj3w",
+  authDomain: "kompanio-network.firebaseapp.com",
+  databaseURL: "https://kompanio-network.firebaseio.com",
+  storageBucket: "kompanio-network.appspot.com",
+  messagingSenderId: "252305841278"
 };
 
 @NgModule({

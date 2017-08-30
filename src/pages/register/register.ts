@@ -76,7 +76,7 @@ export class RegisterPage {
     
     this.auth.registerUser(this.user.contact.email, this.password, this.user).then((profile) => {
         this.registrationPending = true;
-    }, (error) => { this.error = error.message });
+    }, (error) => { this.error = error.message; console.log(error); });
   }
 
   showUploadAlert(message: string) {
