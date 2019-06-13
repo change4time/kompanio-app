@@ -1,34 +1,26 @@
-import { Component, ViewChild } from '@angular/core';
-import { Platform, Nav, LoadingController } from 'ionic-angular';
-import { StatusBar, Splashscreen } from 'ionic-native';
-import { TranslateService } from 'ng2-translate/ng2-translate';
-import { AuthService } from '../providers/auth-service';
+import { Component } from '@angular/core';
 
-import { LoadingPage } from '../pages/loading/loading';
-import { AuthPage } from '../pages/auth/auth';
-import { HomePage } from '../pages/home/home';
-
+import { Platform } from '@ionic/angular';
+import { SplashScreen } from '@ionic-native/splash-screen/ngx';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 @Component({
-  templateUrl: 'app.html'
+  selector: 'app-root',
+  templateUrl: 'app.component.html'
 })
-export class MyApp {
-  @ViewChild(Nav) nav: Nav;
-  rootPage = LoadingPage;
+export class AppComponent {
+  constructor(
+    private platform: Platform,
+    private splashScreen: SplashScreen,
+    private statusBar: StatusBar
+  ) {
+    this.initializeApp();
+  }
 
-  constructor(platform: Platform, translate: TranslateService, private auth: AuthService, public loadingCtrl: LoadingController) {
-    platform.ready().then(() => {
-      auth.subscribe(state => {
-        if (state) {
-          this.nav.setRoot(HomePage);
-        } else {
-          this.nav.setRoot(AuthPage);
-        }
-        StatusBar.styleDefault();
-        Splashscreen.hide();
-      });
+  initializeApp() {
+    this.platform.ready().then(() => {
+      this.statusBar.styleDefault();
+      this.splashScreen.hide();
     });
-    translate.setDefaultLang('fr');
-    translate.use(translate.getBrowserLang());
   }
 }

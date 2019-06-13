@@ -1,118 +1,42 @@
-import { NgModule, ErrorHandler } from '@angular/core';
-import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
-import { Http} from "@angular/http";
-import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-translate/ng2-translate';
-import { AngularFireModule } from 'angularfire2';
+import { NgModule, LOCALE_ID } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { RouteReuseStrategy } from '@angular/router';
 
-/* Pipes */
-import { Time } from '../pipes/time';
-import { OrderBy } from '../pipes/order-by';
-import { PhotoURL } from '../pipes/photo-url';
+import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+import { SplashScreen } from '@ionic-native/splash-screen/ngx';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
 
-/* Services */
-import { AuthService } from '../providers/auth-service';
-import { AccountsService } from '../providers/accounts-service';
-import { DataService } from '../providers/data-service';
-import { UniversalService } from '../providers/universal-service';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
 
-/* Home */
-import { MyApp } from './app.component';
-import { LoadingPage } from '../pages/loading/loading';
-import { AuthPage } from '../pages/auth/auth';
-import { HomePage } from '../pages/home/home';
-import { RegisterPage } from '../pages/register/register';
+import localeFr from '@angular/common/locales/fr';
+import { HttpClientModule } from '@angular/common/http';
 
-/* Accounts */
-import { AccountsPage } from '../pages/accounts/accounts';
-import { AccountPaymentsPage } from '../pages/account-payments/account-payments';
-import { AccountFlowsPage } from '../pages/account-flows/account-flows';
-
-import { PayPage } from '../pages/pay/pay';
-import { DelegationsPage } from '../pages/delegations/delegations';
-import { DelegationDetailsPage } from '../pages/delegation-details/delegation-details';
-import { AccountChooserPage } from '../pages/account-chooser/account-chooser';
-import { AuthorizationPage } from '../pages/authorization/authorization';
-import { BarcodeScanner } from '@ionic-native/barcode-scanner';
-
-/* Map */
-import { MapPage } from '../pages/map/map';
-
-/* Settings */
-import { SettingsPage } from '../pages/settings/settings';
-import { ProfilePage } from '../pages/profile/profile';
-import { CardsPage } from '../pages/cards/cards';
-
-
-
-export const firebaseConfig = {
-  apiKey: "AIzaSyAs32YUjWXLPR3Z43z8zgg2NTir0UWUj3w",
-  authDomain: "kompanio-network.firebaseapp.com",
-  databaseURL: "https://kompanio-network.firebaseio.com",
-  storageBucket: "kompanio-network.appspot.com",
-  messagingSenderId: "252305841278"
-};
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
-    Time,
-    OrderBy,
-    PhotoURL,
-    
-    MyApp,
-    LoadingPage,
-    AuthPage,
-    HomePage,
-    RegisterPage,
-    
-    AccountsPage,
-    AccountPaymentsPage,
-    AccountFlowsPage,
-    
-    PayPage,
-    DelegationsPage,
-    DelegationDetailsPage,
-    AccountChooserPage,
-    AuthorizationPage,
-    
-    MapPage,
-    
-    SettingsPage,
-    ProfilePage,
-    CardsPage
+    AppComponent
   ],
+  entryComponents: [],
   imports: [
-    IonicModule.forRoot(MyApp),
-    TranslateModule.forRoot({
-      provide: TranslateLoader,
-      useFactory: (http: Http) => new TranslateStaticLoader(http, './assets/i18n', '.json'),
-      deps: [Http]
-    }),
-    AngularFireModule.initializeApp(firebaseConfig)
+    BrowserModule,
+    IonicModule.forRoot(),
+    AppRoutingModule,
+
+    HttpClientModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule,
+    AngularFireAuthModule,
   ],
-  bootstrap: [IonicApp],
-  entryComponents: [
-    MyApp,
-    LoadingPage,
-    AuthPage,
-    HomePage,
-    RegisterPage,
-    
-    AccountsPage,
-    AccountPaymentsPage,
-    AccountFlowsPage,
-    
-    PayPage,
-    DelegationsPage,
-    DelegationDetailsPage,
-    AccountChooserPage,
-    AuthorizationPage,
-    
-    MapPage,
-    
-    SettingsPage,
-    ProfilePage,
-    CardsPage
+  providers: [
+    StatusBar,
+    SplashScreen,
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
-  providers: [AuthService, AccountsService, DataService, UniversalService, BarcodeScanner, {provide: ErrorHandler, useClass: IonicErrorHandler}]
+  bootstrap: [AppComponent]
 })
 export class AppModule {}
